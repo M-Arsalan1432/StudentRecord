@@ -1,0 +1,42 @@
+<?php
+
+ include('dbConnection.php');
+
+ $data = stripslashes(file_get_contents("php://input"));
+ $mydata = json_decode($data, true);
+ $id = $mydata['id'];
+ $name = $mydata['name'];
+ $email = $mydata['email'];
+ $password = $mydata['password'];
+
+//  Insert Data Query
+// if(!empty($name) and !empty($email) and !empty($password)) {
+//   $sql ="INSERT INTO student(id, name, email, password) VALUES ('$id' $name', '$email', '$password')";
+//   if($conn->query($sql) == TRUE){
+//       echo "Student Saved Successfully";
+//   }
+//   else{
+//       echo "Unable to Save Student";
+//   }
+// }
+//  else {
+//     echo "Fill All Fields";
+// }
+
+//  Insert or Update Data Query
+if(!empty($name) && !empty($email) && !empty($password)) {
+    $sql ="INSERT INTO student(id, name, email, password) VALUES ('$id', '$name', '$email', '$password') ON DUPLICATE KEY
+    UPDATE name= '$name', email = '$email', password = '$password'";
+    if($conn->query($sql) == TRUE){
+        echo "Student Saved Successfully";
+    }
+    else{
+        echo "Unable to Save Student";
+    }
+  }
+   else {
+      echo "Fill All Fields";
+  }
+
+
+?>
